@@ -1,0 +1,281 @@
+.clearboth {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+ 
+table.tablesorter {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+
+table.tablesorter th {
+	border-width: 1px;
+	padding: 1px;
+	font-size:16px;
+	border-style: inset;
+	border-color: gray;
+	background-color: #CCCC99;
+	-moz-border-radius: ;
+}
+table.tablesorter td {
+	border-width: 1px;
+	padding: 1px;
+	font-size:14px;
+	border-style: inset;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: ;
+}
+
+table.tablesorter tr td.stu_status:hover{
+  background-color: #fe9811;
+  cursor: pointer;
+}
+table.tablesorter tr td.stu_tution:hover{
+  background-color: #fe9811;
+  cursor: pointer;
+}
+
+input.stu_status:hover{
+  background-color: #fe9811;
+  cursor: pointer;
+}
+
+table.sample {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: outset;
+	border-color: gray;
+	border-collapse: separate;
+	background-color: white;
+}
+table.sample th {
+	border-width: 1px;
+	padding: 1px;
+	font-size:14px;
+	border-style: inset;
+	border-color: gray;
+	background-color: #CCCC99;
+	-moz-border-radius: ;
+}
+table.sample td {
+	border-width: 1px;
+	padding: 1px;
+	font-size:14px;
+	border-style: inset;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: ;
+}
+
+#v1_table, 
+#v1_td, 
+#v1_th {
+    border: 1px solid black;
+}
+
+#v1_th {
+    background-color: #CCCC99;
+    color :#330000;
+}
+
+#nav {
+    font-family: verdana;
+    font-size: 8pt;
+}
+#test {
+    overflow:scroll;
+    height:200px;
+}
+
+#sub1 {
+    font-family: verdana;
+    font-size: 8pt;
+    display: inline;
+    padding: 5px 12px;
+    color: #ffffff;
+    text-decoration: none;
+}
+  
+#nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+  
+#nav a:link,
+#nav label,
+#nav a:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+  
+#sub1:link,
+#sub1:visited {
+    color: #ffffff;
+    text-decoration: none;
+}
+  
+#nav a {
+    display: block;
+    padding: 8px 12px;
+}
+
+#nav li li a {
+    display: block;
+    padding: 5px 20px;
+}
+
+#nav li,
+#nav label {
+    float: left;
+    /*background-color: #708BB1;*/
+    /*background-color: #006699;*/
+    background-color: #0000FF;
+    margin-right: 1px;
+    position: relative;
+    border-radius: 12px 12px 0px 0px;
+}
+ 
+#sub1 {
+    float: left;
+    background-color: #996633;
+    margin-right: 1px;
+    display: inline;
+    position: relative;
+    border-radius: 12px 12px 0px 0px;
+}
+ 
+#nav li li {
+    width: 120px;
+    margin-top: 1px;
+    border-radius: 0px 0px 0px 0px;
+}
+ 
+#nav li li li {
+    width: 90px;
+    margin-top: 1px;
+    border-radius: 0px 0px 0px 0px;
+}
+ 
+#nav li li li li {
+    width: 180px;
+    margin-top: 1px;
+    border-radius: 0px 0px 0px 0px;
+}
+ 
+#nav li:hover {
+    background-color: #555555;
+}
+
+#sub1:hover {
+    background-color: #555555;
+}
+
+#nav li li:hover {
+    background-color: #757575;
+}  
+  
+#nav ul ul  {
+    position: absolute;
+    visibility: hidden;
+}
+  
+#nav ul ul ul{
+    position: absolute;
+    left: 100%;
+    top: -2px;
+    border: solid 2px;
+} 
+ 
+#nav li:hover > ul {
+    visibility: visible;
+}
+
+#sub1:hover > ul {
+    visibility: visible;
+}
+  
+.right-arrow {
+    float: right;
+}
+
+#home1,
+#home2, 
+#home3 {
+    float:left;
+    background-color:#eee;
+}
+
+#home1 {
+    width:69%;
+    height:74%;
+    margin-right:1%;
+}
+
+#home2 {
+    width:29%;
+    height:19%;
+    margin-bottom:1%;
+}
+
+#home3 {
+    width:29%;
+    height:54%;
+}
+
+body
+{
+font: "Trebuchet MS", Verdana, sans-serif;
+background-color: #5c87b2;
+color: #696969;
+}
+
+@media print {
+    footer {page-break-after: always;}
+}
+
+#printableArea {
+   overflow:auto;
+   background:#fff;
+   float: none !important;
+   overflow: visible !important;
+}
+
+#main
+{
+padding: 10px;
+background-color: #ffffff;
+border-radius: 4px 4px 4px 4px;
+}
+
+h2
+{
+font: Georgia, serif;
+border-bottom: 3px solid #cc9900;
+color: #996600;
+}
+
+#cal_table{
+    border: 1px solid black;
+    table-layout: fixed;
+}
+
+#cal_td {
+    border: 1px solid black;
+    overflow: hidden;
+    width: 120px;
+    height: 70px;
+}
+
+
+@media print {
+.page-break { display: block; page-break-after: always; }
+}
+
+
