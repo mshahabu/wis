@@ -20,8 +20,8 @@ function wis_connect_to_mysql_old() {
 }
 
 function wis_connect_to_mysql() {
-       
-	$mysqli = new mysqli('localhost', 'icsgv_wisuser', 'WIS*ifj16', 'icsgv_wis');
+        
+	$mysqli = new mysqli('localhost', 'abc321_wisuser', 'sHmZ0Hbl%q=-', 'abc321_wis');
 	// $mysqli = new mysqli ( 'localhost', 'root', '', 'wis_db' );
 	
 	if ($mysqli->connect_errno) {
