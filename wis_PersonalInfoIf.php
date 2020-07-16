@@ -28,6 +28,17 @@ class PersonalInfoIf {
 		return $result->fetch_assoc ();
 	}
 	
+	public function get_cell_phone($personal_info_id) {
+		$sql = 'SELECT cell_phone FROM personal_info WHERE (id_pi = "' . $personal_info_id . '")';
+		
+		$result = $this->mysqli->query ( $sql );
+		if (! $result) {
+			die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 1 ) . ': ' . $this->mysqli->error );
+		}
+		
+		return $result->fetch_assoc ();
+	}
+	
 	public function get_all_records() {
 		$sql = 'SELECT id_pi, first_name, last_name FROM personal_info ORDER BY last_name ASC, first_name ASC';
 		

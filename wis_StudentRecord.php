@@ -177,16 +177,19 @@ class StudentRecord {
 		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 1, asc1, 0);  asc1 *= -1;'>Stu ID</th> ";
 		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 2, asc2, 0);  asc2 *= -1;'>First Name, M</th> ";
 		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 3, asc3, 0);  asc3 *= -1;'>Last Name</th> ";
-		print "<th>Father Name</th> ";
-		print "<th>Mother Name</th> ";
-		print "<th>Email</th> ";
-		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 7, asc4, 0);  asc4 *= -1;'>Grade</th> ";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 4, asc4, 0);  asc4 *= -1;'>Father Name</th> ";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 5, asc5, 0);  asc5 *= -1;'>Mother Name</th> ";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 6, asc6, 0);  asc6 *= -1;'>Email</th> ";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 7, asc7, 0);  asc7 *= -1;'>Grade</th> ";
+		print "<th>Cell Phone</th>";
+		print "<th>Mother's Cell</th>";
+		print "<th>Father's Cell</th>";
 		// print "<th>Regular School Grade</th> ";
-		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 8, asc5, 0);  asc5 *= -1;'>Teacher Name</th> ";
-		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 9, asc6, 0);  asc6 *= -1;'>Status</th> ";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 8, asc8, 0);  asc8 *= -1;'>Teacher Name</th> ";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 9, asc9, 0);  asc9 *= -1;'>Status</th> ";
 		print "<th>Billed</th>";
-		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 11, asc7, 0); asc7 *= -1;'>Paid</th>";
-		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 12, asc8, 0); asc8 *= -1;'>Bal Due</th>";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 11, asc10, 0); asc10 *= -1;'>Paid</th>";
+		print "<th style='background-color:#beff33;' onclick='sort_table(studentBody, 12, asc11, 0); asc11 *= -1;'>Bal Due</th>";
 		print "</tr>";
 		print "</thead>";
 		print "<tbody id='studentRecord'>";
@@ -265,6 +268,20 @@ class StudentRecord {
 				print "-";
 			}
 			print getCell ( $regInfo ['section'] ) . " </td>";
+			$cell = $this->personalInfoIf->get_cell_phone($studentName [$i] ['pers_info_id']);
+
+			print "<td> ";
+			print $cell['cell_phone'];
+			print " </td>";
+
+			print "<td> ";
+			print $infop['mother_cell_phone'];
+			print " </td>";
+
+			print "<td> ";
+			print $infop['father_cell_phone'];
+			print " </td>";
+
 			// print "<td>". getCell($regInfo['reg_school_grade']) . " </td>";
 			print "<td>" . getCell ( $tinfo ['first_name'] ) . " " . getCell ( $tinfo ['last_name'] ) . " </td>";
 			print "<td class='stu_status' onclick=location.href='wis_webIf.php?obj=studentRecord&meth=view_student_record_n_modify&a1=" . $student_id . "'>";

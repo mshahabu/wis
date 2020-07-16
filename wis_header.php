@@ -39,6 +39,9 @@ $( ".datepicker3" ).datepicker( "option", "dateFormat", "mm/dd");
     asc6 = 1,
     asc7 = 1,
     asc8 = 1;
+    asc9 = 1;
+    asc10 = 1;
+    asc11 = 1;
 
     window.onload = function ()
     {
