@@ -102,6 +102,8 @@ function wis_main_menu($mysqli_h, $printBut)
     global $registrationForm;
 
     $teacher = new Teacher($mysqli_h);
+    $registrationIf = new RegistrationIf($mysqli_h);
+    $administrationIf = new AdministrationIf($mysqli_h);
     
     print '<div id="nav">';
     print '<ul>';
@@ -612,6 +614,15 @@ function wis_main_menu($mysqli_h, $printBut)
 	}
 	if ($_SESSION['access_privilege'] == WIS_STUDENT) {
 	    print "<li><a href='wis_webIf.php?obj=studentRecord&meth=get_profile&a1=" . $_SESSION['student_id'] .  "' >My Profile</a></li>";
+
+	    $infoRegistration = $registrationIf->get_record ( $_SESSION['student_id'], $administrationIf->get_school_year (), 'ACTIVE' );
+
+	    //if($infoRegistration['reg_status'] == 'PENDING')
+	    {
+		print "<li><a href='wis_webIf.php?obj=studentRecord&meth=studentRegistrationApproval&a1=" . $_SESSION['student_id'] .  "' >Registration</a></li>";
+	    }
+	    
+	    print "<li><a href='wis_webIf.php?obj=studentRecord&meth=view_tution_plan_n_setup&a1=" . $_SESSION['student_id'] . "' >Tution</a></li>";
 	}
 	if ($_SESSION['access_privilege'] == WIS_TEACHER) {
 	    print "<li><a href='wis_webIf.php?obj=teacher&meth=get_class_roster&a1=" . $_SESSION['teacher_id'] . "&a2=" . $_SESSION['first_name'] . "&a3=" . $_SESSION['middle_name'] . "&a4=" . $_SESSION['last_name'] .  "' >My Class Roster</a></li>";
@@ -1075,6 +1086,7 @@ function wis_footer($submitBut) {
     print '</footer>';
     print '</div>';
     print '</body>';
+
     print '</html>';
 }
 

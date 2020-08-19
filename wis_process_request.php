@@ -194,35 +194,55 @@ function wis_get_new_request() {
 		
 		case 'studentRegistration' :
 			
-			$_REQUEST ['registration_date'] = trim ( $_REQUEST ['registration_date'] );
-			$_REQUEST ['first_name1'] = trim ( $_REQUEST ['first_name1'] );
-			$_REQUEST ['last_name1'] = trim ( $_REQUEST ['last_name1'] );
-			$_REQUEST ['address'] = trim ( $_REQUEST ['address'] );
-			$_REQUEST ['city'] = trim ( $_REQUEST ['city'] );
-			$_REQUEST ['zipcode'] = trim ( $_REQUEST ['zipcode'] );
-			$_REQUEST ['mother_last_name'] = trim ( $_REQUEST ['mother_last_name'] );
-			$_REQUEST ['mother_first_name'] = trim ( $_REQUEST ['mother_first_name'] );
-			$_REQUEST ['father_last_name'] = trim ( $_REQUEST ['father_last_name'] );
-			$_REQUEST ['father_first_name'] = trim ( $_REQUEST ['father_first_name'] );
-			$_REQUEST ['ps_grade1'] = trim ( $_REQUEST ['ps_grade1'] );
-			$_REQUEST ['home_area'] = trim ( $_REQUEST ['home_area'] );
-			$_REQUEST ['home_local'] = trim ( $_REQUEST ['home_local'] );
-			$_REQUEST ['home_number'] = trim ( $_REQUEST ['home_number'] );
-			$_REQUEST ['mother_cell_area'] = trim ( $_REQUEST ['mother_cell_area'] );
-			$_REQUEST ['mother_cell_local'] = trim ( $_REQUEST ['mother_cell_local'] );
+			$_REQUEST ['register_date']      = trim ( $_REQUEST ['register_date'] );
+			$_REQUEST ['first_name1']        = trim ( $_REQUEST ['first_name1'] );
+			$_REQUEST ['last_name1']         = trim ( $_REQUEST ['last_name1'] );
+			$_REQUEST ['address']            = trim ( $_REQUEST ['address'] );
+			$_REQUEST ['city']               = trim ( $_REQUEST ['city'] );
+			$_REQUEST ['zipcode']            = trim ( $_REQUEST ['zipcode'] );
+			$_REQUEST ['mother_last_name']   = trim ( $_REQUEST ['mother_last_name'] );
+			$_REQUEST ['mother_first_name']  = trim ( $_REQUEST ['mother_first_name'] );
+			$_REQUEST ['father_last_name']   = trim ( $_REQUEST ['father_last_name'] );
+			$_REQUEST ['father_first_name']  = trim ( $_REQUEST ['father_first_name'] );
+			$_REQUEST ['ps_grade1']          = trim ( $_REQUEST ['ps_grade1'] );
+			$_REQUEST ['home_area']          = trim ( $_REQUEST ['home_area'] );
+			$_REQUEST ['home_local']         = trim ( $_REQUEST ['home_local'] );
+			$_REQUEST ['home_number']        = trim ( $_REQUEST ['home_number'] );
+			$_REQUEST ['mother_cell_area']   = trim ( $_REQUEST ['mother_cell_area'] );
+			$_REQUEST ['mother_cell_local']  = trim ( $_REQUEST ['mother_cell_local'] );
 			$_REQUEST ['mother_cell_number'] = trim ( $_REQUEST ['mother_cell_number'] );
-			$_REQUEST ['father_cell_area'] = trim ( $_REQUEST ['father_cell_area'] );
-			$_REQUEST ['father_cell_local'] = trim ( $_REQUEST ['father_cell_local'] );
+			$_REQUEST ['father_cell_area']   = trim ( $_REQUEST ['father_cell_area'] );
+			$_REQUEST ['father_cell_local']  = trim ( $_REQUEST ['father_cell_local'] );
 			$_REQUEST ['father_cell_number'] = trim ( $_REQUEST ['father_cell_number'] );
-			
-			if (empty ( $_REQUEST ['registration_date'] ) || empty ( $_REQUEST ['first_name1'] ) || empty ( $_REQUEST ['last_name1'] ) || empty ( $_REQUEST ['address'] ) || empty ( $_REQUEST ['city'] ) || empty ( $_REQUEST ['zipcode'] ) || empty ( $_REQUEST ['mother_last_name'] ) || empty ( $_REQUEST ['mother_first_name'] ) || empty ( $_REQUEST ['father_last_name'] ) || empty ( $_REQUEST ['father_first_name'] ) || empty ( $_REQUEST ['ps_grade1'] ) || empty ( $_REQUEST ['home_area'] ) || empty ( $_REQUEST ['home_local'] ) || empty ( $_REQUEST ['home_number'] ) || ((empty ( $_REQUEST ['mother_cell_area'] ) || empty ( $_REQUEST ['mother_cell_local'] ) || empty ( $_REQUEST ['mother_cell_number'] )) && (empty ( $_REQUEST ['father_cell_area'] ) || empty ( $_REQUEST ['father_cell_local'] ) || empty ( $_REQUEST ['father_cell_number'] )))) {
-				
+
+			if (empty ( $_REQUEST ['register_date'] ) ||
+			    empty ( $_REQUEST ['first_name1'] ) ||
+			    empty ( $_REQUEST ['last_name1'] ) ||
+			    empty ( $_REQUEST ['address'] ) ||
+			    empty ( $_REQUEST ['city'] ) ||
+			    empty ( $_REQUEST ['zipcode'] ) ||
+			    empty ( $_REQUEST ['mother_last_name'] ) ||
+			    empty ( $_REQUEST ['mother_first_name'] ) ||
+			    empty ( $_REQUEST ['father_last_name'] ) ||
+			    empty ( $_REQUEST ['father_first_name'] ) ||
+			    empty ( $_REQUEST ['ps_grade1'] ) ||
+			    empty ( $_REQUEST ['home_area'] ) ||
+			    empty ( $_REQUEST ['home_local'] ) ||
+			    empty ( $_REQUEST ['home_number'] ) ||
+			    empty ( $_REQUEST ['mother_cell_area'] ) ||
+			    empty ( $_REQUEST ['mother_cell_local'] ) ||
+			    empty ( $_REQUEST ['mother_cell_number'] ) ||
+			    empty ( $_REQUEST ['father_cell_area'] ) ||
+			    empty ( $_REQUEST ['father_cell_local'] ) ||
+			    empty ( $_REQUEST ['father_cell_number'] )
+			    ) {
+			    print "EMPTY <BR>";
 				$_SESSION ['wis_error_flag'] = TRUE;
 				$_SESSION ['wis_error'] = "<font color='red'>Please fill in all required (*) fields <font color='black'> <BR>";
 				// print "<font color='red'>Please fill in all required (*) fields <font color='black'> <BR>";
 				$regForm->student_registration ( RegistrationForm::REENTER, $_REQUEST );
 			} elseif (($_REQUEST ['par_email'] !== "n/a") && ! (filter_var ( $_REQUEST ['par_email'], FILTER_VALIDATE_EMAIL ))) {
-				
+			    print "PAR_EMAIL <BR>";
 				// print "<font color='red'> Invalid email; Please provide valid email or enter n/a <font color='black'>";
 				$_SESSION ['wis_error_flag'] = TRUE;
 				$_SESSION ['wis_error'] = "<font color='red'> Invalid email; Please provide valid email or enter n/a <font color='black'>";
@@ -232,6 +252,96 @@ function wis_get_new_request() {
 			}
 			break;
 		
+		case 'studentRegistrationApproval':
+
+			$info['first_name1']        = trim ( $_REQUEST ['first_name1'] );
+			$info['middle_name1']       = trim ( $_REQUEST ['middle_name1'] );
+			$info['last_name1']         = trim ( $_REQUEST ['last_name1'] );
+			$info['email1']             = trim ( $_REQUEST ['email1'] );
+			$info['ps_grade1']          = trim ( $_REQUEST ['ps_grade1'] );
+			$info['allergies1']         = trim ( $_REQUEST ['allergies1'] );
+			$info['medications1']       = trim ( $_REQUEST ['medications1'] );
+			$info['register_date']      = trim ( $_REQUEST ['register_date'] );
+			$info['waiver_signed_by']   = trim ( $_REQUEST ['waiver_signed_by'] );
+			$info['form_signed_by']     = trim ( $_REQUEST ['form_signed_by'] );
+
+			$info['address']            = trim ( $_REQUEST ['address']);
+			$info['city']               = trim ( $_REQUEST ['city'] );
+			$info['zipcode']            = trim ( $_REQUEST ['zipcode'] );
+			$info['state']              = trim ( $_REQUEST ['state'] );
+			$info['home_area']          = trim ( $_REQUEST ['home_area'] );
+			$info['home_local']         = trim ( $_REQUEST ['home_local'] );
+			$info['home_number']        = trim ( $_REQUEST ['home_number'] );
+
+			$info['mother_last_name']   = trim ( $_REQUEST ['mother_last_name'] );
+			$info['mother_first_name']  = trim ( $_REQUEST ['mother_first_name'] );
+			$info['mother_middle_name'] = trim ( $_REQUEST ['mother_middle_name'] );
+			$info['mother_cell_area']   = trim ( $_REQUEST ['mother_cell_area'] );
+			$info['mother_cell_local']  = trim ( $_REQUEST ['mother_cell_local'] );
+			$info['mother_cell_number'] = trim ( $_REQUEST ['mother_cell_number'] );
+
+			$info['father_last_name']   = trim ( $_REQUEST ['father_last_name'] );
+			$info['father_first_name']  = trim ( $_REQUEST ['father_first_name'] );
+			$info['father_middle_name'] = trim ( $_REQUEST ['father_middle_name'] );
+			$info['father_cell_area']   = trim ( $_REQUEST ['father_cell_area'] );
+			$info['father_cell_local']  = trim ( $_REQUEST ['father_cell_local'] );
+			$info['father_cell_number'] = trim ( $_REQUEST ['father_cell_number'] );
+
+			$info['par_email']          = trim ( $_REQUEST ['par_email'] );
+			$info['parent_volun_date1'] = trim ( $_REQUEST ['parent_volun_date1'] );
+			$info['parent_volun_date2'] = trim ( $_REQUEST ['parent_volun_date2'] );
+
+			$info['auth_person1']       = trim ( $_REQUEST ['auth_person1'] );
+			$info['address_ap1']        = trim ( $_REQUEST ['address_ap1'] );
+			$info['phone_ap1']          = trim ( $_REQUEST ['phone_ap1'] );
+			$info['driver_lic_ap1']     = trim ( $_REQUEST ['driver_lic_ap1'] );
+
+			$info['auth_person2']       = trim ( $_REQUEST ['auth_person2'] );
+			$info['address_ap2']        = trim ( $_REQUEST ['address_ap2'] );
+			$info['phone_ap2']          = trim ( $_REQUEST ['phone_ap2'] );
+			$info['driver_lic_ap2']     = trim ( $_REQUEST ['driver_lic_ap2'] );
+
+
+			if (empty ( $info ['register_date'] ) ||
+			    empty ( $info ['first_name1'] ) ||
+			    empty ( $info ['last_name1'] ) ||
+			    empty ( $info ['address'] ) ||
+			    empty ( $info ['city'] ) ||
+			    empty ( $info ['zipcode'] ) ||
+			    empty ( $info ['mother_last_name'] ) ||
+			    empty ( $info ['mother_first_name'] ) ||
+			    empty ( $info ['father_last_name'] ) ||
+			    empty ( $info ['father_first_name'] ) ||
+			    empty ( $info ['ps_grade1'] ) ||
+			    empty ( $info ['home_area'] ) ||
+			    empty ( $info ['home_local'] ) ||
+			    empty ( $info ['home_number'] ) ||
+			    empty ( $info ['mother_cell_area'] ) ||
+			    empty ( $info ['mother_cell_local'] ) ||
+			    empty ( $info ['mother_cell_number'] ) ||
+			    empty ( $info ['father_cell_area'] ) ||
+			    empty ( $info ['father_cell_local'] ) ||
+			    empty ( $info ['father_cell_number'] )
+			    )
+			{
+				$_SESSION ['wis_error_flag'] = TRUE;
+				$_SESSION ['wis_error'] = "<font color='red'>Please fill in all required (*) fields <font color='black'> <BR>";
+				// print "<font color='red'>Please fill in all required (*) fields <font color='black'> <BR>";
+				$studentRecord->studentRegistrationApproval( $_REQUEST ['student_id'], $info );
+
+			} elseif (($info ['par_email'] !== "n/a") && ! (filter_var ( $info ['par_email'], FILTER_VALIDATE_EMAIL ))) {
+
+				// print "<font color='red'> Invalid email; Please provide valid email or enter n/a <font color='black'>";
+				$_SESSION ['wis_error_flag'] = TRUE;
+				$_SESSION ['wis_error'] = "<font color='red'> Invalid email; Please provide valid email or enter n/a <font color='black'>";
+				$studentRecord->studentRegistrationApproval( $_REQUEST ['student_id'], $info );
+
+			} else {
+				$studentRecord->studentRegistrationApprovalDb($_REQUEST ['student_id'], $info);
+			}
+			
+			break;
+			
 		case 'blackboardFileUpload' :
 			$blackboard = new Blackboard ( $mysqli_h );
 			$_FILES ['file_name'] ['name'] = trim ( $_FILES ['file_name'] ['name'] );

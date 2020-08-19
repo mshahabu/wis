@@ -346,10 +346,10 @@ class RegistrationIf {
 			$sql .= " medications='" . $reg_rec ['medications'] . "'";
 			$sep = true;
 		}
-		if (! empty ( $reg_rec ['registration_date'] )) {
+		if (! empty ( $reg_rec ['register_date'] )) {
 			if ($sep)
 				$sql .= ",";
-			$sql .= " register_date='" . $reg_rec ['registration_date'] . "'";
+			$sql .= " register_date='" . $reg_rec ['register_date'] . "'";
 			$sep = true;
 		}
 		if (! empty ( $reg_rec ['auth_person1'] )) {
@@ -404,6 +404,18 @@ class RegistrationIf {
 			if ($sep)
 				$sql .= ",";
 			$sql .= " reg_school_grade='" . $reg_rec ['reg_school_grade'] . "'";
+			$sep = true;
+		}
+		if (! empty ( $reg_rec ['waiver_signed_by'] )) {
+			if ($sep)
+				$sql .= ",";
+			$sql .= " waiver_signed_by='" . $reg_rec ['waiver_signed_by'] . "'";
+			$sep = true;
+		}
+		if (! empty ( $reg_rec ['form_signed_by'] )) {
+			if ($sep)
+				$sql .= ",";
+			$sql .= " form_signed_by='" . $reg_rec ['form_signed_by'] . "'";
 			$sep = true;
 		}
 		$sql .= " WHERE (student_id='" . $student_id . "')";
@@ -463,7 +475,8 @@ class RegistrationIf {
 		$sql  = "UPDATE registration SET ";
 		$sql .= " approved_by=NULL, approval_date=NULL, ";
 		$sql .= " parent_volun_1=NULL, parent_volun_2=NULL, ";
-		$sql .= " register_date='2019-08-24', ";
+		$sql .= " waiver_signed_by=NULL, form_signed_by=NULL, ";
+		$sql .= " register_date='2020-08-24', ";
 		$sql .= " school_year='" . $school_year . "', ";
 		$sql .= " wis_grade='" . $wis_grade . "', ";
 		$sql .= " miscl_charges='0.0', ";
