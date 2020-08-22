@@ -162,6 +162,12 @@ class StudentRecord {
         } elseif ($grade === 'ALL' && $reg_status === 'APPROVED') {
             $stu_ids = $this->registrationIf->get_student_grade_ids ( 'APPROVED', 'ALL', 'ALL', $school_year );
             print '<LEGEND style="font-size: 20px">Approved Records - ' . count($stu_ids) . ' students </LEGEND>';
+        } elseif ($grade === 'ALL' && $reg_status === 'IN_REVIEW') {
+            $stu_ids = $this->registrationIf->get_student_grade_ids ( 'IN_REVIEW', 'ALL', 'ALL', $school_year );
+            print '<LEGEND style="font-size: 20px">In Review Records - ' . count($stu_ids) . ' students </LEGEND>';
+        } elseif ($grade === 'ALL' && $reg_status === 'NEW_APPL') {
+            $stu_ids = $this->registrationIf->get_student_grade_ids ( 'NEW_APPL', 'ALL', 'ALL', $school_year );
+            print '<LEGEND style="font-size: 20px">New Application Records - ' . count($stu_ids) . ' students </LEGEND>';
         } else {
             $stu_ids = $this->registrationIf->get_student_grade_ids ( 'APPROVED', $grade, 'ALL', $school_year );
             print '<LEGEND style="font-size: 20px">Grade Records - ' . count($stu_ids) . ' students </LEGEND>';
@@ -864,10 +870,16 @@ class StudentRecord {
         print "<tr><td><B>Sub-total </td><td><hr></td><td> ";
         print "<input type=text name='subtotal' size=6 maxlength=10 value='" . number_format ($tfee,2) . "' style='text-align:right;color:blue;' readonly>";
         print " </td></tr>";
-        $tfee -= ($mem_disc + $sibling_disc);
-        
+        if ($this->registrationIf->waiveTution($sid)) {
+            $waiver = $ainfo ['tution_fee'];
+            $tfee -= $waiver;
+        } else {
+            $waiver = 0;
+            $tfee -= ($mem_disc + $sibling_disc);
+        }        
         print "<tr><td><B>Discounts</td><td>ICSGV Member Discount </td><td><input type=text name='mem_discount' size=6 maxlength=10 value='" . number_format ( $mem_disc, 2 ) . "' style='text-align:right;color:blue;' readonly></td></tr>";
         print "<tr><td></td><td>Sibling Discount </td><td><input type=text name='num_siblings' size=6 maxlength=10 value='" . number_format ( $sibling_disc, 2 ) . "' style='text-align:right;color:blue;' readonly></td></tr>";
+        print "<tr><td></td><td>Tution Waiver</td><td><input type=text name='tutionWaiver' size=6 maxlength=10 value='" . number_format ( $waiver, 2 ) . "' style='text-align:right;color:blue;' readonly></td></tr>";
         print "<tr><td><hr></td><td><hr></td><td><hr></td></tr>";
         print "<tr><td><B>Total Amount </td><td><input type=text name='total_amount' size=10 maxlength=10 value='" . number_format ( $tfee, 2 ) . "' style='text-align:right;color:blue;' readonly></td></tr>";
         print "<tr><td><B>Payment Made </td><td><input type=text name='payment_made' size=10 maxlength=10 value='" . number_format ( $prev_pay, 2 ) . "' style='text-align:right;color:blue;' readonly></td></tr>";
@@ -1480,7 +1492,7 @@ class StudentRecord {
             }
         }
         
-        $reg_stat = 'PENDING';
+        $reg_stat = 'NEW_APPL';
         if (! empty ( $_REQUEST ['reg_status'] )) {
             if ($_REQUEST ['reg_status'] === 'pending') {
                 $reg_stat = 'PENDING';
@@ -1577,6 +1589,12 @@ class StudentRecord {
         if (! empty ( $_REQUEST ['form_signed_by'] )) {
             $reg_rec ['waiver_signed_by'] = $_REQUEST ['waiver_signed_by'];
         }
+        if(isset($_REQUEST ['tutionWaiver']))
+        {
+          $reg_rec['tutionWaiver'] = true;
+        } else {
+          $reg_rec['tutionWaiver'] = false;
+        }
         
         $this->registrationIf->update_record ( $reg_rec, $_REQUEST ['student_id'] );
         
@@ -1643,7 +1661,7 @@ class StudentRecord {
         print '---- Set the new school year<BR>';
         print '---- Parent Volunteer dates set to null<BR>';
         print '---- Student Approver and Approval date set to null<BR>';
-	print '---- Waiver and Form Signed are set to null<BR>';
+        print '---- Waiver and Form Signed are set to null<BR>';
         print '---- All student registration status set to PENDING<BR>';
         print '---- Miscllaneous charges and payment plan fee set to 0<BR>';
         print "</FIELDSET>";
@@ -2215,6 +2233,12 @@ class StudentRecord {
         print "<input type=text name='cell_local' size=3 maxlength=3 value= '" . $cell_local . "' " . $read_attr . ">";
         print "-";
         print "<input type=text name='cell_number' size=4 maxlength=4 value= '" . $cell_number . "' " . $read_attr . "></td>";
+        print "<td>Tution Waiver </td><td><input type=checkbox name='tutionWaiver'";
+        if (! empty ( $this->infoRegistration ['tutionWaiver'] ) && $this->infoRegistration ['tutionWaiver'] == 1) {
+            print " checked ";
+        }
+
+        print "></td>";
         print "</tr>";
         
         print "<tr>";
@@ -2229,6 +2253,7 @@ class StudentRecord {
         print "<tr>";
         print "<td class='normal1'>Email </td>";
         print "<td><input type=text name='email' size=30 value= '" . $this->infoPersonalInfo ['email'] . "' " . $read_attr . "></td>";
+        print "<td></td>";
         print "</tr>";
         
         print "<tr>";
@@ -2616,7 +2641,7 @@ class StudentRecord {
         if (! empty ( $this->infoRegistration ['reg_status'] ) && $this->infoRegistration ['reg_status'] === 'APPROVED') {
             print " checked='yes' ";
         }
-        print " > APROVED </td>";
+        print " > APPROVED </td>";
         
         print "</tr>";
         print "<tr>";
@@ -2630,8 +2655,26 @@ class StudentRecord {
         print " > DENIED </td>";
         
         print "<td> </td>";
-        print "</tr>";
-        
+        print "</tr>";        
+        print "<tr>";
+        print "<td> </td>";
+        print "<td> </td>";
+        print "<td><input type=radio name='reg_status' value='in_review'";
+        if (! empty ( $this->infoRegistration ['reg_status'] ) && $this->infoRegistration ['reg_status'] === 'IN_REVIEW') {
+            print " checked='yes' ";
+        }
+        print " > IN_REVIEW </td>";
+        print "</tr>";        
+        print "<tr>";
+        print "<td> </td>";
+        print "<td> </td>";
+        print "<td><input type=radio name='reg_status' value='new_appl'";
+        if (! empty ( $this->infoRegistration ['reg_status'] ) && $this->infoRegistration ['reg_status'] === 'NEW_APPL') {
+            print " checked='yes' ";
+        }
+        print " > NEW_APPL </td>";
+        print "</tr>";        
+
         print "</table>";
         
         if (! empty ( $this->infoRegistration ['id_regis'] )) {
@@ -2949,7 +2992,7 @@ class StudentRecord {
         print '<FIELDSET  style="background-color:' . get_color ( 'SECTION' ) . ' ; ">';
         print "<LEGEND style='font-size:14px'><B>3. Registration Fee</B></LEGEND>";
 
-        print " Tution fee 1st child: $" . $info1 ['tution_fee'] . "; $25 discount for each suucessive child ";
+        print " Tution fee 1st child: $" . $info1 ['tution_fee'] . "; $50 discount for each suucessive child ";
 
         print "<br>";
         print "<label style='font-size:14px'>ICSGV member gets $" . $info1 ['icsgv_mem_discount'] . " discount for 1st child; Payment plan available with $" . $info1 ['payment_plan_fee'] . " additional fee</label>";
@@ -3149,7 +3192,8 @@ class StudentRecord {
 
         wis_main_menu ( $this->mysqli_h, TRUE );
 
-        print "Registration succefully completed";
+        print "Registration is submitted and under review <br>";
+        print "Please visit icsgv.com to make a payment";
 
         wis_footer ( FALSE );
     }
