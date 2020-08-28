@@ -621,7 +621,7 @@ function wis_main_menu($mysqli_h, $printBut)
 
             //if($infoRegistration['reg_status'] == 'PENDING')
             {
-                print "<li><a href='wis_webIf.php?obj=studentRecord&meth=studentRegistrationApproval&a1=" . $_SESSION['student_id'] .  "' >Registration</a></li>";
+                print "<li><a href='wis_webIf.php?obj=studentRecord&meth=studentReturnRegistration&a1=" . $_SESSION['student_id'] .  "' >Registration</a></li>";
             }
             
             print "<li><a href='wis_webIf.php?obj=studentRecord&meth=view_tution_plan_n_setup&a1=" . $_SESSION['student_id'] . "' >Tution</a></li>";

@@ -755,20 +755,37 @@ class StudentRecord {
                 
                 print '<input type=hidden name="gbook_id-' . $i . '" value="' . $book_info [$i] ['id_gb'] . '">';
                 
-                print '<td><input type=checkbox name="' . $bid . '"';
-                
-                if (empty($rc_info)) {
-                    if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
-                        print ' checked ';
-                        $book_cost += $book_info [$i] ['cost'];
-                    }
+		if ($_SESSION['access_privilege'] == WIS_STUDENT) {
+		    if ($this->infoRegistration ['reg_status'] == 'PENDING') {
+			print '<td><input type=checkbox disabled readonly checked ></td>';
+			$book_cost += $book_info [$i] ['cost'];
+
+			$this->bookIf->updateBookNeeded($sid, $book_info [$i] ['id_gb'], 1);
+		    } else {
+			print '<td><input type=checkbox name="' . $bid . '" disabled readonly ';
+
+			if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
+			    print ' checked ';
+			    $book_cost += $book_info [$i] ['cost'];
+			}
+			print '></td>';
+		    }	    
                 } else {
-                    if (!empty($rc_info[$bid]) && $rc_info[$bid]) { 
-                        print ' checked ';
-                        $book_cost += $book_info [$i] ['cost'];
-                    }
+		    print '<td><input type=checkbox name="' . $bid . '"';
+		    
+		    if (empty($rc_info)) {
+			if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
+			    print ' checked ';
+			    $book_cost += $book_info [$i] ['cost'];
+			}
+		    } else {
+			if (!empty($rc_info[$bid]) && $rc_info[$bid]) { 
+			    print ' checked ';
+			    $book_cost += $book_info [$i] ['cost'];
+			}
+		    }
+		    print '></td>';
                 }
-                print '></td>';
                 print '<td>' . $book_info [$i] ['book_name'] . '</td>';
                 print '<td><input type=text size=4 value="' . $book_info [$i] ['cost'] . '" style="text-align:right;color:blue;" readonly> </td>';
                 print '</tr>';
@@ -888,8 +905,10 @@ class StudentRecord {
         
         if ($_SESSION['access_privilege'] != WIS_STUDENT) {
             print "<p><em>Select Payment Method</em><br>";
-            print '<input type=radio name="pay_method" value="Cash"' . ' > Cash ';
-            print "<input type=radio name='pay_method' value='Check' checked > Check Check number<input type=text name='check_number' size=10 maxlength=10><BR><BR>";
+            print "<input type=radio name='pay_method' value='CASH'  > Cash ";
+            print "<input type=radio name='pay_method' value='CREDIT_CARD' checked > Credit Card ";
+            print "<input type=radio name='pay_method' value='CHECK' > Check <BR>";
+	    print "Check or Transaction number<input type=text name='transac_number' size=10 maxlength=10><BR><BR>";
         
             print "<class='normal1'>Amount Paid";
             print "<input type=text name='amount_paid' size=10 maxlength=10 value= '' style='color:blue;' >";
@@ -1101,10 +1120,10 @@ class StudentRecord {
             $trans ['trans_date'] = convert_normal_date_to_SQL ( $_REQUEST ['pay_date'] );
             $trans ['payment_type'] = $_REQUEST ['pay_method'];
             $trans ['other_description'] = NULL;
-            $trans ['check_number'] = NULL;
+            $trans ['transac_number'] = NULL;
             
-            if ($_REQUEST ['pay_method'] === 'Check') {
-                $trans ['check_number'] = $_REQUEST ['check_number'];
+            if ($_REQUEST ['pay_method'] == 'CHECK' || $_REQUEST ['pay_method'] == 'CREDIT_CARD') {
+                $trans ['transac_number'] = $_REQUEST ['transac_number'];
             }
             if ($pay_type === 'OTHER') {
                 $trans ['other_description'] = $_REQUEST ['other_description'];
@@ -1945,7 +1964,7 @@ class StudentRecord {
             print "<td style='color:blue; background-color:white; width:80px;'>$&nbsp" . number_format ( $info[$i]['amount'], 2 ) . "</td>";
             $tpaid += $info[$i]['amount'];
             print "<td style='color:blue; background-color:white; width:80px;'>" . $info[$i]['payment_type'] . "</td>";
-            print "<td style='color:blue; background-color:white;'>" . $info[$i]['check_number'] . "</td>";
+            print "<td style='color:blue; background-color:white;'>" . $info[$i]['transac_number'] . "</td>";
             if ($info[$i]['paid_for'] === 'OTHER') {
                 print "<td style='color:blue; background-color:white;'>" . $info[$i]['other_discription'] . "</td>";
             } else {
@@ -2682,7 +2701,7 @@ class StudentRecord {
         }
     }
     
-    public function studentRegistrationApproval($sid, &$info=NULL)
+    public function studentReturnRegistration($sid, &$info=NULL)
     {
         include ("wis_header.php");
 
@@ -2992,7 +3011,7 @@ class StudentRecord {
         print '<FIELDSET  style="background-color:' . get_color ( 'SECTION' ) . ' ; ">';
         print "<LEGEND style='font-size:14px'><B>3. Registration Fee</B></LEGEND>";
 
-        print " Tution fee 1st child: $" . $info1 ['tution_fee'] . "; $50 discount for each suucessive child ";
+        print " Tution fee 1st child: $" . $info1 ['tution_fee'] . " per year; $50 discount for each suucessive child ";
 
         print "<br>";
         print "<label style='font-size:14px'>ICSGV member gets $" . $info1 ['icsgv_mem_discount'] . " discount for 1st child; Payment plan available with $" . $info1 ['payment_plan_fee'] . " additional fee</label>";
@@ -3114,13 +3133,13 @@ class StudentRecord {
 
         print "</FIELDSET>";
 
-        setSubmitValue ( "studentRegistrationApproval" );
+        setSubmitValue ( "studentReturnRegistrationSubmit" );
         print "</FORM>";
 
         wis_footer ( TRUE );
     }
 
-    public function studentRegistrationApprovalDb($sid, &$info)
+    public function studentReturnRegistrationDb($sid, &$info)
     {
         $pid = $this->studentIf->get_personal_info_id($sid);
         
@@ -3153,7 +3172,7 @@ class StudentRecord {
 
         $this->parentIf->update_record($parInfo, $parentId);
         
-        $regInfo['reg_status']        = 'IN_REVIEW';
+        $regInfo['reg_status']        = 'APPROVED';
 
         if (! empty ( $info ['parent_volun_date1'] )) {
             $regInfo['parent_volun_1']    = convert_normal_date_to_SQL ( $info ['parent_volun_date1'] );
@@ -3185,7 +3204,7 @@ class StudentRecord {
         $regInfo['reg_school_grade']  = $info['ps_grade1'];
 
 
-        $this->registrationIf->update_record($regInfo, $sid);
+        $this->registrationIf->update_record($regInfo, $sid, true);
 
 
         include ("wis_header.php");

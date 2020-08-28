@@ -78,7 +78,7 @@ class AccountIf {
 	public function insert_record($trans) {
 		$sql = "INSERT INTO accounts SET personal_info_id = '" . $trans ['personal_info_id'] . "', ";
 		$sql .= "amount = '" . $trans ['amount'] . "', trans_date = '" . $trans ['trans_date'] . "', ";
-		$sql .= "check_number = '" . $trans ['check_number'] . "', payment_type = '" . $trans ['payment_type'] . "', ";
+		$sql .= "transac_number = '" . $trans ['transac_number'] . "', payment_type = '" . $trans ['payment_type'] . "', ";
 		$sql .= "paid_for = '" . $trans ['paid_for'] . "', other_description = '" . $trans ['other_description'] . "', ";
 		$sql .= "school_year = '" . $trans ['school_year'] . "';";
 		
@@ -92,7 +92,7 @@ class AccountIf {
 	}
 	
 	public function get_account_info($school_year, $pers_info_id) {
-		$sql = "SELECT trans_date, amount, payment_type, check_number, paid_for, other_description FROM accounts ";
+		$sql = "SELECT trans_date, amount, payment_type, transac_number, paid_for, other_description FROM accounts ";
 		$sql .= " WHERE (personal_info_id='" . $pers_info_id;
 		
 		if ($school_year === 'ALL') {

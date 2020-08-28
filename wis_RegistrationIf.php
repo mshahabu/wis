@@ -135,7 +135,7 @@ class RegistrationIf {
                 //$sql = "SELECT student_id FROM registration WHERE " . $query;
                 $sql = "SELECT student_id FROM registration ";
                 if (!empty($query)) {
-                        $sql .= $query;
+                        $sql .= " WHERE " . $query;
                 }
                 // print "SQL : " . $sql . "<BR>";
                 $result = $this->mysqli->query ( $sql );
@@ -269,7 +269,7 @@ class RegistrationIf {
                 }
         }
         
-        public function update_record($reg_rec, $student_id) {
+        public function update_record($reg_rec, $student_id, $return_student=false) {
                 $sql = "UPDATE registration SET ";
                 $sep = true;
                 if (isset ( $reg_rec ['icsgv_mem'] )) {
@@ -277,34 +277,36 @@ class RegistrationIf {
                 } else {
                         $sql .= " icsgv_mem = '0' ";
                 }
-                if (isset ( $reg_rec ['wis_grade'] )) {
+		if ($return_student==false) {
+		    if (isset ( $reg_rec ['wis_grade'] )) {
                         if ($sep)
                                 $sql .= ",";
                         $sql .= " wis_grade = '" . $reg_rec ['wis_grade'] . "'";
-                } else {
+		    } else {
                         if ($sep)
                                 $sql .= ",";
                         $sql .= " wis_grade = NULL ";
-                }
-                 if (isset ( $reg_rec ['tutionWaiver'] )) {
-                         if ($sep)
-                                 $sql .= ",";
-                         if($reg_rec ['tutionWaiver']) {
-                                 $sql .= " tutionWaiver =  1";
-                         } else {
-                                 $sql .= " tutionWaiver =  0";
-                         }
-                 }
-                if (isset ( $reg_rec ['section'] )) {
+		    }
+		    if (isset ( $reg_rec ['section'] )) {
                         if ($sep)
                                 $sql .= ",";
                         $sql .= " section   = '" . $reg_rec ['section'] . "'";
                         $sep = true;
-                } else {
+		    } else {
                         if ($sep)
                                 $sql .= ",";
                         $sql .= " section   = NULL ";
-                }
+		    }
+		}
+                if (isset ( $reg_rec ['tutionWaiver'] )) {
+		        if ($sep)
+                                $sql .= ",";
+                        if($reg_rec ['tutionWaiver']) {
+                                $sql .= " tutionWaiver =  1";
+                        } else {
+                                $sql .= " tutionWaiver =  0";
+                        }
+		}
                 if (! empty ( $reg_rec ['approved_by'] )) {
                         if ($sep)
                                 $sql .= ",";

@@ -252,7 +252,7 @@ function wis_get_new_request() {
                         }
                         break;
                 
-                case 'studentRegistrationApproval':
+                case 'studentReturnRegistrationSubmit':
 
                         $info['first_name1']        = trim ( $_REQUEST ['first_name1'] );
                         $info['middle_name1']       = trim ( $_REQUEST ['middle_name1'] );
@@ -327,17 +327,17 @@ function wis_get_new_request() {
                                 $_SESSION ['wis_error_flag'] = TRUE;
                                 $_SESSION ['wis_error'] = "<font color='red'>Please fill in all required (*) fields <font color='black'> <BR>";
                                 // print "<font color='red'>Please fill in all required (*) fields <font color='black'> <BR>";
-                                $studentRecord->studentRegistrationApproval( $_REQUEST ['student_id'], $info );
+                                $studentRecord->studentReturnRegistration( $_REQUEST ['student_id'], $info );
 
                         } elseif (($info ['par_email'] !== "n/a") && ! (filter_var ( $info ['par_email'], FILTER_VALIDATE_EMAIL ))) {
 
                                 // print "<font color='red'> Invalid email; Please provide valid email or enter n/a <font color='black'>";
                                 $_SESSION ['wis_error_flag'] = TRUE;
                                 $_SESSION ['wis_error'] = "<font color='red'> Invalid email; Please provide valid email or enter n/a <font color='black'>";
-                                $studentRecord->studentRegistrationApproval( $_REQUEST ['student_id'], $info );
+                                $studentRecord->studentReturnRegistration( $_REQUEST ['student_id'], $info );
 
                         } else {
-                                $studentRecord->studentRegistrationApprovalDb($_REQUEST ['student_id'], $info);
+                                $studentRecord->studentReturnRegistrationDb($_REQUEST ['student_id'], $info);
                         }
                         
                         break;

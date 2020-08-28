@@ -457,7 +457,7 @@ class RegistrationForm {
                 print '<FIELDSET  style="background-color:' . get_color ( 'SECTION' ) . ' ; ">';
                 print "<LEGEND style='font-size:14px'><B>3. Registration Fee</B></LEGEND>";
                 
-                print " Tution fee 1st child: $" . $info1 ['tution_fee'] . "; $50 discount for each suucessive child ";
+                print " Tution fee 1st child: $" . $info1 ['tution_fee'] . " per year; $50 discount for each suucessive child ";
                 
                 print "<br>";
                 print "<label style='font-size:14px'>ICSGV member gets $" . $info1 ['icsgv_mem_discount'] . " discount for 1st child; Payment plan available with $" . $info1 ['payment_plan_fee'] . " additional fee</label>";
