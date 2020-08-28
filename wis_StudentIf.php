@@ -137,12 +137,24 @@ class StudentIf {
 		return $info ['teacher_id'];
 	}
 	
+	public function get_student_id($pers_info_id) {
+		$sql = "SELECT id_student FROM student WHERE ( personal_info_id = '" . $pers_info_id . "' )";
+		
+		$result = $this->mysqli->query ( $sql );
+		if (! $result) {
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 10 ) . ': ' . $this->mysqli->error );
+		}
+		$info = $result->fetch_assoc ();
+		
+		return $info ['id_student'];
+	}
+	
 	public function get_status($student_id) {
 		$sql = 'SELECT status FROM student WHERE (id_student = "' . $student_id . '")';
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 10 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 11 ) . ': ' . $this->mysqli->error );
 		}
 		
 		$info = $result->fetch_assoc ();
@@ -155,7 +167,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 11 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 12 ) . ': ' . $this->mysqli->error );
 		}
 		
 		// Put them in array
@@ -173,7 +185,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 12 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 13 ) . ': ' . $this->mysqli->error );
 		}
 		
 		// Put them in array
@@ -191,7 +203,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 13 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 14 ) . ': ' . $this->mysqli->error );
 		}
 		
 		return $result->fetch_assoc ();
@@ -202,7 +214,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 14 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 15 ) . ': ' . $this->mysqli->error );
 		}
 		
 		// Put them in array
@@ -222,7 +234,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 15 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 16 ) . ': ' . $this->mysqli->error );
 		}
 		
 		return $this->mysqli->insert_id;
@@ -235,7 +247,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 14 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 17 ) . ': ' . $this->mysqli->error );
 		}
 	}
 	
@@ -246,7 +258,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 16 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 18 ) . ': ' . $this->mysqli->error );
 		}
 	}
 	
@@ -257,7 +269,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 17 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 19 ) . ': ' . $this->mysqli->error );
 		}
 	}
 	
@@ -267,7 +279,7 @@ class StudentIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 17 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 20 ) . ': ' . $this->mysqli->error );
 		}
 	}
 	
@@ -277,7 +289,7 @@ class StudentIf {
 		$result = $this->mysqli->query ( $sql );
 		
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STUDENT + 18 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STUDENT + 21 ) . ': ' . $this->mysqli->error );
 		}
 		
 		$info = $result->fetch_assoc ();

@@ -97,6 +97,7 @@ define ( "BRIEF_REC", 7 );
 define ( "DETAIL_REC", 8 );
 define ( "GRADUATE", 9 );
 define ( "INACTIVE", 10 );
+define ( "PASWD_RESET", 11 );
 
 final class Action {
     private function __construct() {

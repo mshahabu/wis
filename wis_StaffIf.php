@@ -36,6 +36,19 @@ class StaffIf {
 		
 		return $info ['personal_info_id'];
 	}
+
+	public function get_staff_id($pers_info_id) {
+		$sql = "SELECT id_staff FROM staff WHERE ( personal_info_id = '" . $pers_info_id . "' )";
+		
+		$result = $this->mysqli->query ( $sql );
+		if (! $result) {
+			die ( 'Invalid query ' . strval ( Errno::STAFF + 3 ) . ': ' . $this->mysqli->error );
+		}
+		$info = $result->fetch_assoc ();
+		
+		return $info ['id_staff'];
+	}
+	
 	public function insert_record($trans) {
 		$sql = "INSERT INTO staff SET personal_info_id = '" . $trans ['personal_info_id'] . "', ";
 		$sql .= "staff_status = '" . $trans ['staff_status'] . "', hire_date = '" . $trans ['hire_date'] . "', ";
@@ -43,7 +56,7 @@ class StaffIf {
 		
 		$result = $this->mysqli->query ( $sql );
 		if (! $result) {
-			die ( 'Invalid query ' . strval ( Errno::STAFF + 3 ) . ': ' . $this->mysqli->error );
+			die ( 'Invalid query ' . strval ( Errno::STAFF + 4 ) . ': ' . $this->mysqli->error );
 		}
 		return $this->mysqli->insert_id;
 	}

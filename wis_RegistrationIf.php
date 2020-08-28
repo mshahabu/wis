@@ -477,7 +477,7 @@ class RegistrationIf {
  
                  $result = $this->mysqli->query ( $sql );
                  if (! $result) {
-                         die ( 'Invalid query ' . strval ( Errno::REGISTRATION + 14.5 ) . ': ' . $this->mysqli->error );
+                         die ( 'Invalid query ' . strval ( Errno::REGISTRATION + 15 ) . ': ' . $this->mysqli->error );
                  }
  
                  $info = $result->fetch_assoc ();
@@ -490,7 +490,7 @@ class RegistrationIf {
                 
                 $result = $this->mysqli->query ( $sql );
                 if (! $result) {
-                        die ( 'Invalid query ' . strval ( Errno::REGISTRATION + 15 ) . ': ' . $this->mysqli->error );
+                        die ( 'Invalid query ' . strval ( Errno::REGISTRATION + 16 ) . ': ' . $this->mysqli->error );
                 }
         }
         
@@ -509,7 +509,7 @@ class RegistrationIf {
                 
                 $result = $this->mysqli->query ( $sql );
                 if (! $result) {
-                        die ( 'Invalid query ' . strval ( Errno::REGISTRATION + 16 ) . ': ' . $this->mysqli->error );
+                        die ( 'Invalid query ' . strval ( Errno::REGISTRATION + 17 ) . ': ' . $this->mysqli->error );
                 }
                 
         }
