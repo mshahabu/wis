@@ -5,6 +5,7 @@
 
 include_once 'wis_connect.php'; 
 include_once "wis_Teacher.php"; 
+include_once "wis_Administration.php"; 
 include_once "wis_GradeBookIf.php"; 
 include_once "wis_StudentIf.php"; 
 include_once "wis_AdministrationIf.php"; 
@@ -101,8 +102,9 @@ function wis_main_menu($mysqli_h, $printBut)
 {
     global $registrationForm;
 
-    $teacher = new Teacher($mysqli_h);
-    $registrationIf = new RegistrationIf($mysqli_h);
+    $teacher          = new Teacher($mysqli_h);
+    $administration   = new Administration($mysqli_h);
+    $registrationIf   = new RegistrationIf($mysqli_h);
     $administrationIf = new AdministrationIf($mysqli_h);
     
     print '<div id="nav">';
@@ -937,6 +939,23 @@ function wis_main_menu($mysqli_h, $printBut)
             print          '</ul>';
             print       '</li>';
             print       '<li><a href="#">Reset Password</a>';
+            print          '<ul>';
+            print             '<li><a href="#">Students</a>';
+            print                '<ul style="max-height: 200px; overflow-y: auto;">';
+                                    $administration->get_student_list();
+            print                '</ul>';
+            print             '</li>';
+            print             '<li><a href="#">Teachers</a>';
+            print                '<ul style="max-height: 200px; overflow-y: auto;">';
+                                    $administration->get_teacher_list();
+            print                '</ul>';
+            print             '</li>';
+            print             '<li><a href="#">Staff</a>';
+            print                '<ul style="max-height: 200px; overflow-y: auto;">';
+                                    $administration->get_staff_list();
+            print                '</ul>';
+            print             '</li>';
+            print          '</ul>';
             print       '</li>';
             print    '</ul>';
             print '</li>';

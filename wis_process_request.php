@@ -590,7 +590,11 @@ function wis_get_new_request() {
                         }
                         wis_main_page ( $mysqli_h );
                         break;
-                
+
+                case 'resetPassword' :
+                        $administration->reset_user_password($_REQUEST['user_personal_info_id']);
+                        break;
+            
                 default :
                         wis_main_page ( $mysqli_h );
                         $request = FALSE;
