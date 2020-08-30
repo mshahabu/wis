@@ -708,7 +708,7 @@ class StudentRecord {
         $prev_pay = 0;
         print '<div id="printableArea">';
         
-        print '<div style="width:40%; height:80%; float:left;" >';
+        print '<div style="width:40%; height:80%; float:left; overflow: auto; " >';
         
         print '<FIELDSET  style="background-color:' . get_color ( 'BOX' ) . ' ; ">';
         print "<LEGEND><B>Amount Previously Paid</B></LEGEND>";
@@ -738,6 +738,9 @@ class StudentRecord {
         print '<BR>';
         print '<BR>';
         print '<BR>';
+        print '<BR>';
+        print '<BR>';
+        print '<BR>';
         print '<FIELDSET  style="background-color:' . get_color ( 'BOX' ) . ' ; ">';
         print "<LEGEND><B>Book Cost</B></LEGEND>";
         if (! empty ( $this->infoRegistration ['wis_grade'] )) {
@@ -755,36 +758,36 @@ class StudentRecord {
                 
                 print '<input type=hidden name="gbook_id-' . $i . '" value="' . $book_info [$i] ['id_gb'] . '">';
                 
-		if ($_SESSION['access_privilege'] == WIS_STUDENT) {
-		    if ($this->infoRegistration ['reg_status'] == 'PENDING') {
-			print '<td><input type=checkbox disabled readonly checked ></td>';
-			$book_cost += $book_info [$i] ['cost'];
-
-			$this->bookIf->updateBookNeeded($sid, $book_info [$i] ['id_gb'], 1);
-		    } else {
-			print '<td><input type=checkbox name="' . $bid . '" disabled readonly ';
-
-			if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
-			    print ' checked ';
-			    $book_cost += $book_info [$i] ['cost'];
-			}
-			print '></td>';
-		    }	    
+                if ($_SESSION['access_privilege'] == WIS_STUDENT) {
+                    if ($this->infoRegistration ['reg_status'] == 'PENDING') {
+                        print '<td><input type=checkbox disabled readonly checked ></td>';
+                        $book_cost += $book_info [$i] ['cost'];
+                        
+                        $this->bookIf->updateBookNeeded($sid, $book_info [$i] ['id_gb'], 1);
+                    } else {
+                        print '<td><input type=checkbox name="' . $bid . '" disabled readonly ';
+                        
+                        if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
+                            print ' checked ';
+                            $book_cost += $book_info [$i] ['cost'];
+                        }
+                        print '></td>';
+                    }            
                 } else {
-		    print '<td><input type=checkbox name="' . $bid . '"';
-		    
-		    if (empty($rc_info)) {
-			if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
-			    print ' checked ';
-			    $book_cost += $book_info [$i] ['cost'];
-			}
-		    } else {
-			if (!empty($rc_info[$bid]) && $rc_info[$bid]) { 
-			    print ' checked ';
-			    $book_cost += $book_info [$i] ['cost'];
-			}
-		    }
-		    print '></td>';
+                    print '<td><input type=checkbox name="' . $bid . '"';
+                    
+                    if (empty($rc_info)) {
+                        if ( $this->bookIf->isBookNeeded($sid,  $book_info [$i] ['id_gb']) ) {
+                            print ' checked ';
+                            $book_cost += $book_info [$i] ['cost'];
+                        }
+                    } else {
+                        if (!empty($rc_info[$bid]) && $rc_info[$bid]) { 
+                            print ' checked ';
+                            $book_cost += $book_info [$i] ['cost'];
+                        }
+                    }
+                    print '></td>';
                 }
                 print '<td>' . $book_info [$i] ['book_name'] . '</td>';
                 print '<td><input type=text size=4 value="' . $book_info [$i] ['cost'] . '" style="text-align:right;color:blue;" readonly> </td>';
@@ -813,7 +816,7 @@ class StudentRecord {
         
         print '</div>';
         
-        print '<div style="width:60%; height:80%; float:right;" >';
+        print '<div style="width:60%; height:80%; float:right; overflow: auto; " >';
         
         print '<FIELDSET  style="background-color:' . get_color ( 'BOX' ) . ' ; ">';
         print "<LEGEND><B>Tution and Book Fee</B></LEGEND>";
@@ -908,7 +911,7 @@ class StudentRecord {
             print "<input type=radio name='pay_method' value='CASH'  > Cash ";
             print "<input type=radio name='pay_method' value='CREDIT_CARD' checked > Credit Card ";
             print "<input type=radio name='pay_method' value='CHECK' > Check <BR>";
-	    print "Check or Transaction number<input type=text name='transac_number' size=10 maxlength=10><BR><BR>";
+            print "Check or Transaction number<input type=text name='transac_number' size=10 maxlength=10><BR><BR>";
         
             print "<class='normal1'>Amount Paid";
             print "<input type=text name='amount_paid' size=10 maxlength=10 value= '' style='color:blue;' >";
