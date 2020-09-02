@@ -591,6 +591,7 @@ function wis_main_menu($mysqli_h, $printBut)
             print           '<li><a href="wis_webIf.php?obj=studentRecord&meth=view_student_list&a1=ALL&a2=APPROVED">Approved Records </a></li>';
             print           '<li><a href="wis_webIf.php?obj=studentRecord&meth=view_student_list&a1=ALL&a2=IN_REVIEW">In Reivew Applications</a></li>';
             print           '<li><a href="wis_webIf.php?obj=studentRecord&meth=view_student_list&a1=ALL&a2=NEW_APPL">New Applications</a></li>';
+            print           '<li><a href="wis_webIf.php?obj=studentRecord&meth=view_student_login_list">Students with Login</a></li>';
             print         '</ul>';
             print       '</li>';
             print       '<li><a href="wis_webIf.php?obj=studentRecord&meth=view_account_summary_list">Account Summary</a></li>';

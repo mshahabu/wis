@@ -33,7 +33,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 1 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 2 ) . ': ' . $this->mysqli->error );
         }
         
         return $result->fetch_assoc ();
@@ -44,7 +44,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 2 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 3 ) . ': ' . $this->mysqli->error );
         }
         
         // Put them in array
@@ -62,7 +62,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 3 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 4 ) . ': ' . $this->mysqli->error );
         }
         
         // Put them in array
@@ -81,7 +81,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 4 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 5 ) . ': ' . $this->mysqli->error );
         }
         
         return $result->fetch_assoc ();
@@ -92,7 +92,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 5 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 6 ) . ': ' . $this->mysqli->error );
         }
         $info = $result->fetch_assoc ();
         
@@ -104,7 +104,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 6 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 7 ) . ': ' . $this->mysqli->error );
         }
         
         return $result->fetch_assoc ();
@@ -117,14 +117,14 @@ class PersonalInfoIf {
         $result = $this->mysqli->query ( $sql );
         
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 7 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 8 ) . ': ' . $this->mysqli->error );
         }
         
         // Put them in array
         $info = array ();
         for($i = 0; ($res = $result->fetch_assoc ()); $i ++) {
             $info [$i] = $res;
-            die ( 'Duplicate Entry found ' . strval ( Errno::PERSONAL_INFO + 8 ) . ' for Personal Info ID: ' . $info [$i] ['id_pi'] );
+            die ( 'Duplicate Entry found ' . strval ( Errno::PERSONAL_INFO + 9 ) . ' for Personal Info ID: ' . $info [$i] ['id_pi'] );
         }
         
         $result->close ();
@@ -144,7 +144,7 @@ class PersonalInfoIf {
         $result = $this->mysqli->query ( $sql );
         
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 9 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 10 ) . ': ' . $this->mysqli->error );
         }
         
         // Put them in array
@@ -155,6 +155,23 @@ class PersonalInfoIf {
         $result->close ();
         
         return $info;
+    }
+
+    public function is_login_exist($pid) {
+        $rv = true;
+
+        $sql = "SELECT id_pi FROM personal_info WHERE ( (id_pi='" . $pid . "') && ((user!='' && user!='NULL') && (password!='' && password!='NULL')) )";
+
+        $result = $this->mysqli->query ( $sql );
+        
+        if (! $result) {
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 11 ) . ': ' . $this->mysqli->error );
+        }
+        
+        if ($result->num_rows === 0) {
+            $rv = false;
+        }
+        return $rv;
     }
     
     public function insert_record($pers_rec) {
@@ -171,7 +188,7 @@ class PersonalInfoIf {
             if ($this->mysqli->errno == 1062) {
                 $rv = - 1;
             } else {
-                die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 10 ) . ': ' . $this->mysqli->error );
+                die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 12 ) . ': ' . $this->mysqli->error );
             }
         } else {
             $rv = $this->mysqli->insert_id;
@@ -191,7 +208,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 11 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 13 ) . ': ' . $this->mysqli->error );
         }
     }
     
@@ -200,7 +217,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 12 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 14 ) . ': ' . $this->mysqli->error );
         }
     }
     
@@ -209,7 +226,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 13 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 15 ) . ': ' . $this->mysqli->error );
         }
     }
     
@@ -218,7 +235,7 @@ class PersonalInfoIf {
         
         $result = $this->mysqli->query ( $sql );
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 14 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 16 ) . ': ' . $this->mysqli->error );
         }
     }
     
@@ -229,9 +246,10 @@ class PersonalInfoIf {
         $result = $this->mysqli->query ( $sql );
         
         if (! $result) {
-            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 15 ) . ': ' . $this->mysqli->error );
+            die ( 'Invalid query ' . strval ( Errno::PERSONAL_INFO + 17 ) . ': ' . $this->mysqli->error );
         }
     }
 }
 
 ?>
+

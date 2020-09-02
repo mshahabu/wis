@@ -204,11 +204,11 @@ class StudentRecord {
         $studentName = array ();
         $j = 0;
         for($i = 0; $i < count ( $stu_ids ); $i++) {
-                if ($this->studentIf->isStatus($stu_ids [$i] ['student_id'], 'ACTIVE') ) {
+            if ($this->studentIf->isStatus($stu_ids [$i] ['student_id'], 'ACTIVE') ) {
                 $pers_info_id = $this->studentIf->get_personal_info_id ( $stu_ids [$i] ['student_id'] );
                 $studentName [$j] = $this->personalInfoIf->get_name ( $pers_info_id );
-                $studentName [$j] ['student_id'] = $stu_ids [$i] ['student_id'];
-                $studentName [$j] ['pers_info_id'] = $pers_info_id;
+                $studentName [$j]['student_id']   = $stu_ids [$i] ['student_id'];
+                $studentName [$j]['pers_info_id'] = $pers_info_id;
                 $j++;
             }
         }
@@ -302,9 +302,74 @@ class StudentRecord {
         }
         print "</tbody>";
         print "</table>";
+        print "</FIELDSET>";
         wis_footer ( FALSE );
     }
 
+    public function view_student_login_list() {
+
+        include_once ("wis_header.php");
+        
+        $school_year = $this->administrationIf->get_school_year ();
+        wis_main_menu ( $this->mysqli_h, TRUE );
+        
+        print '<div id="printableArea">';
+        
+        print '<FIELDSET  style="background-color:' . get_color ( 'BOX' ) . ' ; margin:0px auto;">';
+        print "<LEGEND><B>List of Login Students</B></LEGEND>";
+        
+        $stu_ids = $this->studentIf->get_all_active_student_ids(); 
+
+        $j=0;
+        $studentArray = array ();
+        for($i = 0; $i < count ( $stu_ids ); $i++) {
+            $pid = $this->studentIf->get_personal_info_id($stu_ids[$i]);
+
+            if ( $this->personalInfoIf->is_login_exist($pid) ) {
+                $personal_info = $this->personalInfoIf->get_name($pid);
+                $parent_id     = $this->studentIf->get_parent_id($stu_ids[$i]);
+                $parent_rec    = $this->parentIf->get_record($parent_id);
+
+                $studentArray[$j]                = $this->personalInfoIf->get_name($pid);
+                $studentArray[$j]['student_id']  = $stu_ids[$i];
+                $studentArray[$j]['mother_fname'] = $parent_rec['mother_first_name'];
+                $studentArray[$j]['mother_lname'] = $parent_rec['mother_last_name'];
+                $studentArray[$j]['father_fname'] = $parent_rec['father_first_name'];
+                $studentArray[$j]['father_lname'] = $parent_rec['father_last_name'];
+                $j++;
+            }
+        }
+
+        usort ( $studentArray, array ($this, 'nameSort') );
+
+        print "<BR>Number of students registered for login: " . count ( $studentArray ) . "<BR> <BR>";
+
+        print "<table border cellpadding=3>";
+
+        print "<tr>";
+        print "<th>Num</th> ";
+        print "<th>Stu ID</th> ";
+        print "<th>Student Name </th> ";
+        print "<th>Mother Name </th> ";
+        print "<th>Father Name </th> ";
+        print "</tr>";
+        
+        for($i = 0; $i < count ( $studentArray ); $i++) {
+            $j=$i+1;
+            print "<tr>";
+            print "<td> " . $j . "</td>";
+            print "<td> " . $studentArray[$i]['student_id'] . "</td>";
+            print "<td> " . $studentArray[$i]['first_name'] . " " . $studentArray[$i]['last_name'] . " </td>";
+            print "<td> " . $studentArray[$i]['mother_fname'] . " " . $studentArray[$i]['mother_lname'] . " </td>";
+            print "<td> " . $studentArray[$i]['father_fname'] . " " . $studentArray[$i]['father_lname'] . " </td>";
+            print "</tr>";
+        }
+        print "</table>";
+        
+        print "</FIELDSET>";
+        wis_footer ( FALSE );
+    }
+    
     public function view_account_list($grade = 'ALL', $reg_status = 'APPROVED') {
         include_once ("wis_header.php");
         
