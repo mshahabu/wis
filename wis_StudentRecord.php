@@ -520,60 +520,60 @@ class StudentRecord {
         $total_bal_due = 0;
         
         foreach ($class_arr as &$grade) {
-        $stu_ids = $this->registrationIf->get_student_grade_ids ( 'APP_PENDING', $grade, 'ALL', $school_year );
+            $stu_ids = $this->registrationIf->get_student_grade_ids ( 'APPROVED', $grade, 'ALL', $school_year );
 
-        $tfee = 0;
-        $apaid = 0; 
-        $stu_grade_tution_fee_inv  = 0; 
-        $stu_grade_tution_fee_paid = 0; 
-        $stu_grade_tution_fee_bal  = 0;
+            $tfee = 0;
+            $apaid = 0; 
+            $stu_grade_tution_fee_inv  = 0; 
+            $stu_grade_tution_fee_paid = 0; 
+            $stu_grade_tution_fee_bal  = 0;
         
-        $stu_grade_bal_due = 0; 
-        for($i = 0; $i < count ( $stu_ids ); $i++) {
+            $stu_grade_bal_due = 0; 
+            for($i = 0; $i < count ( $stu_ids ); $i++) {
 
-            $regInfo = $this->registrationIf->get_record ( $stu_ids[$i]['student_id'], $school_year );
-            $book_cost = 0;
+                $regInfo = $this->registrationIf->get_record ( $stu_ids[$i]['student_id'], $school_year );
+                $book_cost = 0;
 
-            if ( !($this->studentIf->isStatus($stu_ids[$i]['student_id'], 'ACTIVE')) ) {
-            continue; 
-            }
-            $iReg = $this->registrationIf->get_record ( $stu_ids[$i]['student_id'], $this->administrationIf->get_school_year (), 'ACTIVE' );
+                if ( !($this->studentIf->isStatus($stu_ids[$i]['student_id'], 'ACTIVE')) ) {
+                    continue; 
+                }
+                $iReg = $this->registrationIf->get_record ( $stu_ids[$i]['student_id'], $this->administrationIf->get_school_year (), 'ACTIVE' );
             
-            $book_info = $this->gradeBookIf->get_Qgrade_book_list( $iReg['wis_grade'] );
-            for($j = 0; $j < count ( $book_info ); $j++) {
-            if ( $this->bookIf->isBookNeeded($stu_ids[$i]['student_id'],  $book_info [$j] ['id_gb']) ) {
-                $book_cost += $book_info [$j] ['cost'];
-            }
-            }
+                $book_info = $this->gradeBookIf->get_Qgrade_book_list( $iReg['wis_grade'] );
+                for($j = 0; $j < count ( $book_info ); $j++) {
+                    if ( $this->bookIf->isBookNeeded($stu_ids[$i]['student_id'],  $book_info [$j] ['id_gb']) ) {
+                        $book_cost += $book_info [$j] ['cost'];
+                    }
+                }
             
-            // print "TUTION FEE " . $ainfo['tution_fee'] . "<BR>";
-            $tfee = $ainfo ['tution_fee'] + $book_cost + $regInfo ['miscl_charges'];
-            $tfee -= ($regInfo ['icsgv_mem'] * $ainfo ['icsgv_mem_discount']);
-            $tfee -= ($regInfo ['num_siblings'] * $ainfo ['sibling_discount']);
-            if ($regInfo ['payment_plan'] > 1) {
-            $tfee += $ainfo ['payment_plan_fee'];
+                // print "TUTION FEE " . $ainfo['tution_fee'] . "<BR>";
+                $tfee = $ainfo ['tution_fee'] + $book_cost + $regInfo ['miscl_charges'];
+                $tfee -= ($regInfo ['icsgv_mem'] * $ainfo ['icsgv_mem_discount']);
+                $tfee -= ($regInfo ['num_siblings'] * $ainfo ['sibling_discount']);
+                if ($regInfo ['payment_plan'] > 1) {
+                    $tfee += $ainfo ['payment_plan_fee'];
+                }
+                
+                $apaid = $this->accountIf->get_amount_paid ( $this->studentIf->get_personal_info_id($stu_ids[$i]['student_id']), $school_year );
+            
+                $stu_grade_tution_fee_inv  += $tfee;
+                $stu_grade_tution_fee_paid += $apaid;
+                $stu_grade_tution_fee_bal  += ($tfee - $apaid);
             }
+
+            print "<tr>";
+            print "<td>" . $grade . "</td>";
+            print "<td>" . count ( $stu_ids ) . "</td> ";
             
-            $apaid = $this->accountIf->get_amount_paid ( $this->studentIf->get_personal_info_id($stu_ids[$i]['student_id']), $school_year );
+            print "<td>" . number_format($stu_grade_tution_fee_inv,2) . "</td>";
+            print "<td>" . number_format($stu_grade_tution_fee_paid,2) . " </td>";
+            print "<td>" . number_format($stu_grade_tution_fee_bal,2) . "</td>";
             
-            $stu_grade_tution_fee_inv  += $tfee;
-            $stu_grade_tution_fee_paid += $apaid;
-            $stu_grade_tution_fee_bal  += ($tfee - $apaid);
-        }
-
-        print "<tr>";
-        print "<td>" . $grade . "</td>";
-        print "<td>" . count ( $stu_ids ) . "</td> ";
-
-        print "<td>" . number_format($stu_grade_tution_fee_inv,2) . "</td>";
-        print "<td>" . number_format($stu_grade_tution_fee_paid,2) . " </td>";
-        print "<td>" . number_format($stu_grade_tution_fee_bal,2) . "</td>";
-
-        $total_num_stu += count ( $stu_ids );
-        $total_billed  += $stu_grade_tution_fee_inv; 
-        $total_recvd   += $stu_grade_tution_fee_paid;
-        $total_bal_due += $stu_grade_tution_fee_bal;
-        print "</tr>";
+            $total_num_stu += count ( $stu_ids );
+            $total_billed  += $stu_grade_tution_fee_inv; 
+            $total_recvd   += $stu_grade_tution_fee_paid;
+            $total_bal_due += $stu_grade_tution_fee_bal;
+            print "</tr>";
         }
         print "<tr>";
         print "<td></td>";
@@ -2451,7 +2451,7 @@ class StudentRecord {
         
         print "<tr>";
         print "<td class='normal1'>Email </td>";
-        print "<td><input type=text name='par_email' size=30 value= '" . $this->infoParent ['par_email'] . "' " . $read_attr . " style='color:blue;' ></td>";
+        print "<td><input type=text name='par_email' size=50 value= '" . $this->infoParent ['par_email'] . "' " . $read_attr . " style='color:blue;' ></td>";
         print "</tr>";
         
         print "<tr>";
